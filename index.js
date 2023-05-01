@@ -7,7 +7,7 @@ import cors from "cors";
 const configuration = new Configuration({
 
     organization: "org-FHx9gdml1MfpkZCl4GLh7HY4",
-    apiKey: "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",
+    apiKey: load_key(),
 
 });
 
