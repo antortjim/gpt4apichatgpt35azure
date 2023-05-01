@@ -20,12 +20,17 @@
         </div> 
     </main>
 	<script>
+
+    let messages = []
+
     const chatLog = document.getElementById("chat-log");
     const message = document.getElementById("message");
     const form = document.querySelector("form");
     form.addEventListener("submit", (e) => {
         e.preventDefault(); // to not reload the page
         const messageText = message.value;
+        const newMessage = {"role": "assistant", "content": `${messageText}`}
+        messages.push(newMessage);
         message.value = ''; // reset the mesage box
         const messageElement = document.createElement("div");
         messageElement.classList.add("message");
@@ -41,11 +46,17 @@
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                message: messageText
+                messages
             })
+            // either an object with key message and value a string with a message
+            // or a list of objects with the schema predefined in 
+            // https://platform.openai.com/docs/guides/chat/introduction
+
         })
         .then(res => res.json())
         .then(data => {
+            let newAssistantMessage = {"role": "assistant", "content": `${data.completion.message}`}
+            messages.push(newAssistantMessage);
             const messageElement = document.createElement("div");
             messageElement.classList.add("message--received");
             messageElement.innerHTML = `

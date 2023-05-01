@@ -20,12 +20,16 @@ app.use(bodyParser.json());
 app.use(cors())
 app.post("/", async (req, res) => {
 
-    const { message} = req.body;
+    const { messages } = req.body;
 
+    console.log(messages);
     const completion = await openai.createChatCompletion({
         model: "gpt-3.5-turbo",
         messages: [
-            {role: "user", content: `${message}`},
+            {"role": "system", "content": "You are a Computer Vision expert that knows how to \
+             quantify behavior in walking Drosophila melanogaster flies \
+             based on video recordings with high framerate and resolution"},
+            ...messages
         ]
     })
     
